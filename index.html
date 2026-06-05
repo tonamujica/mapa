@@ -39,66 +39,42 @@
         <title></title>
     </head>
     <body class="locked">
-        <div id="accessDenied">
-            <h2>Acceso denegado</h2>
-            <p>No se ingresó la contraseña correcta.</p>
+        <div id="accessDenied"><h2>Acceso denegado</h2><p>No se ingresó la contraseña correcta.</p></div><div id="map">
         </div>
-        <div id="map">
-        </div>
+        
+<script>
+(function () {
+var PASSWORD='sector2026';
+function unlockAndCleanUrl(){
+document.body.classList.remove('locked');
+document.body.classList.remove('denied');
+try{
+var url=new URL(window.location.href);
+if(url.searchParams.has('pw')){
+url.searchParams.delete('pw');
+var cleanSearch=url.searchParams.toString();
+var cleanUrl=window.location.pathname+(cleanSearch?'?'+cleanSearch:'')+window.location.hash;
+window.history.replaceState({},document.title,cleanUrl);
+}
+}catch(e){}
+}
+function denyAccess(){
+document.body.classList.add('denied');
+document.body.classList.add('locked');
+window.stop();
+}
+try{
+var params=new URLSearchParams(window.location.search);
+var urlPassword=params.get('pw');
+if(urlPassword===PASSWORD){unlockAndCleanUrl();return;}
+var typedPassword=window.prompt('Contraseña:');
+if(typedPassword===PASSWORD){unlockAndCleanUrl();return;}
+denyAccess();
+}catch(e){denyAccess();}
+})();
+</script>
 
-        <script>
-        (function () {
-            var PASSWORD = 'sector2026';
-
-            function unlockAndCleanUrl() {
-                document.body.classList.remove('locked');
-                document.body.classList.remove('denied');
-
-                try {
-                    var url = new URL(window.location.href);
-                    if (url.searchParams.has('pw')) {
-                        url.searchParams.delete('pw');
-                        var cleanSearch = url.searchParams.toString();
-                        var cleanUrl = window.location.pathname +
-                            (cleanSearch ? '?' + cleanSearch : '') +
-                            window.location.hash;
-                        window.history.replaceState({}, document.title, cleanUrl);
-                    }
-                } catch (e) {}
-            }
-
-            function denyAccess() {
-                document.body.classList.add('denied');
-                document.body.classList.add('locked');
-
-                // Stop qgis2web/Leaflet from loading the map.
-                window.stop();
-            }
-
-            try {
-                var params = new URLSearchParams(window.location.search);
-                var urlPassword = params.get('pw');
-
-                if (urlPassword === PASSWORD) {
-                    unlockAndCleanUrl();
-                    return;
-                }
-
-                var typedPassword = window.prompt('Contraseña:');
-
-                if (typedPassword === PASSWORD) {
-                    unlockAndCleanUrl();
-                    return;
-                }
-
-                denyAccess();
-            } catch (e) {
-                denyAccess();
-            }
-        })();
-        </script>
-
-        <script src="js/qgis2web_expressions.js"></script>
+<script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/L.Control.Layers.Tree.min.js"></script>
         <script src="js/L.Control.Locate.min.js"></script>
@@ -112,11 +88,11 @@
         <script src="js/leaflet.photon.js"></script>
         <script src="data/area_corregida_1.js"></script>
         <script src="data/poligonos_2.js"></script>
-        <script src="data/Familias_web_links_filtradofamilias_web_links_filtered_3.js"></script>
+        <script src="data/Familias_1_4_6_7_9_11familias_web_links_filtered_3.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[19.383682527036665,-99.17677834981332],[19.409510727251252,-99.12568385995465]]);
+        }).fitBounds([[19.36613724104803,-99.20273797964873],[19.417795109534982,-99.10953899088315]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -296,7 +272,7 @@
         });
         bounds_group.addLayer(layer_poligonos_2);
         map.addLayer(layer_poligonos_2);
-        function pop_Familias_web_links_filtradofamilias_web_links_filtered_3(feature, layer) {
+        function pop_Familias_1_4_6_7_9_11familias_web_links_filtered_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Nombre de la familia</th>\
@@ -330,11 +306,27 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_Familias_web_links_filtradofamilias_web_links_filtered_3_0(feature) {
+        function style_Familias_1_4_6_7_9_11familias_web_links_filtered_3_0(feature) {
             switch(String(feature.properties['Identificado'])) {
+                default:
+                    return {
+                pane: 'pane_Familias_1_4_6_7_9_11familias_web_links_filtered_3',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(162,91,238,1.0)',
+                interactive: true,
+            }
+                    break;
                 case 'N':
                     return {
-                pane: 'pane_Familias_web_links_filtradofamilias_web_links_filtered_3',
+                pane: 'pane_Familias_1_4_6_7_9_11familias_web_links_filtered_3',
                 radius: 16.0,
                 opacity: 1,
                 color: 'rgba(255,255,255,1.0)',
@@ -348,44 +340,28 @@
                 interactive: true,
             }
                     break;
-                default:
-                    return {
-                pane: 'pane_Familias_web_links_filtradofamilias_web_links_filtered_3',
-                radius: 4.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(29,219,236,1.0)',
-                interactive: true,
-            }
-                    break;
             }
         }
-        map.createPane('pane_Familias_web_links_filtradofamilias_web_links_filtered_3');
-        map.getPane('pane_Familias_web_links_filtradofamilias_web_links_filtered_3').style.zIndex = 403;
-        map.getPane('pane_Familias_web_links_filtradofamilias_web_links_filtered_3').style['mix-blend-mode'] = 'normal';
-        var layer_Familias_web_links_filtradofamilias_web_links_filtered_3 = new L.geoJson(json_Familias_web_links_filtradofamilias_web_links_filtered_3, {
+        map.createPane('pane_Familias_1_4_6_7_9_11familias_web_links_filtered_3');
+        map.getPane('pane_Familias_1_4_6_7_9_11familias_web_links_filtered_3').style.zIndex = 403;
+        map.getPane('pane_Familias_1_4_6_7_9_11familias_web_links_filtered_3').style['mix-blend-mode'] = 'normal';
+        var layer_Familias_1_4_6_7_9_11familias_web_links_filtered_3 = new L.geoJson(json_Familias_1_4_6_7_9_11familias_web_links_filtered_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Familias_web_links_filtradofamilias_web_links_filtered_3',
-            layerName: 'layer_Familias_web_links_filtradofamilias_web_links_filtered_3',
-            pane: 'pane_Familias_web_links_filtradofamilias_web_links_filtered_3',
-            onEachFeature: pop_Familias_web_links_filtradofamilias_web_links_filtered_3,
+            dataVar: 'json_Familias_1_4_6_7_9_11familias_web_links_filtered_3',
+            layerName: 'layer_Familias_1_4_6_7_9_11familias_web_links_filtered_3',
+            pane: 'pane_Familias_1_4_6_7_9_11familias_web_links_filtered_3',
+            onEachFeature: pop_Familias_1_4_6_7_9_11familias_web_links_filtered_3,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_Familias_web_links_filtradofamilias_web_links_filtered_3_0(feature));
+                return L.circleMarker(latlng, style_Familias_1_4_6_7_9_11familias_web_links_filtered_3_0(feature));
             },
         });
-        bounds_group.addLayer(layer_Familias_web_links_filtradofamilias_web_links_filtered_3);
-        map.addLayer(layer_Familias_web_links_filtradofamilias_web_links_filtered_3);
+        bounds_group.addLayer(layer_Familias_1_4_6_7_9_11familias_web_links_filtered_3);
+        map.addLayer(layer_Familias_1_4_6_7_9_11familias_web_links_filtered_3);
         setBounds();
         var i = 0;
         layer_poligonos_2.eachLayer(function(layer) {
